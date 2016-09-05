@@ -1,0 +1,26 @@
+material TexturedShape/Squares
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture squares.png
+      }
+    }
+  }
+}
+material TexturedShape/Barrel
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture barrelgradient.png
+      }
+    }
+  }
+}

@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+<!-- Revolute-Revolute Manipulator -->
+<robot name="spinner" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Constants for robot dimensions -->
+  <xacro:property name="PI" value="3.1415926535897931"/>
+  <xacro:property name="mass" value="1" /> <!-- arbitrary value for mass -->
+  <xacro:property name="width" value="0.1" /> <!-- Square dimensions (widthxwidth) of beams -->
+  <xacro:property name="height1" value="2" /> <!-- Link 1 -->
+  <xacro:property name="height2" value="1" /> <!-- Link 2 -->
+  <xacro:property name="height3" value="1" /> <!-- Link 3 -->
+  <xacro:property name="camera_link" value="0.05" /> <!-- Size of square 'camera' box -->
+  <xacro:property name="axel_offset" value="0.05" /> <!-- Space btw top of beam and the each joint -->
+
+  <!-- Import all Gazebo-customization elements, including Gazebo colors -->
+  <xacro:include filename="$(find spinner_description)/urdf/spinner.gazebo" />
+  <!-- Import Rviz colors -->
+  <xacro:include filename="$(find spinner_description)/urdf/materials.xacro" />
+
+  <!-- Used for fixing robot to Gazebo 'base_link' -->
+  <!--link name="world"/>
+
+  <joint name="fixed" type="fixed">
+    <parent link="world"/>
+    <child link="base"/>
+  </joint-->
+
+  <link name="base">
+    <collision>
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <geometry>
+	<cylinder radius="0.8" length="0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <geometry>
+	<cylinder radius="0.8" length="0.02"/>
+      </geometry>
+      <material name="gold"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <mass value="100"/>
+      <inertia
+	  ixx="10" ixy="0.0" ixz="0.0"
+	  iyy="10" iyz="0.0"
+	  izz="10"/>
+    </inertial>
+  </link>
+
+  <joint name="basepole" type="fixed">
+    <parent link="base"/>
+    <child link="pole"/>
+  </joint>
+
+  <link name="pole">
+    <collision>
+      <origin xyz="0 0 1.0" rpy="0 0 0"/>
+      <geometry>
+	<box size="0.1 0.1 2.0"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 1.0" rpy="0 0 0"/>
+      <geometry>
+	<box size="0.2 0.05 2.0"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 1.0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+	  ixx="1" ixy="0.0" ixz="0.0"
+	  iyy="1" iyz="0.0"
+	  izz="1"/>
+    </inertial>
+  </link>
+
+  <joint name="polecam" type="fixed">
+    <parent link="pole"/>
+    <child link="camera_link"/>
+  </joint>
+
+  <link name="camera_link">
+    <collision>
+      <origin xyz="0 0 2.0" rpy="0 0 0"/>
+      <geometry>
+	<box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 2.0" rpy="0 0 0"/>
+      <geometry>
+	<box size="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 1.5707"/>
+      <mass value="1"/>
+      <inertia
+	  ixx="1" ixy="0.0" ixz="0.0"
+	  iyy="1" iyz="0.0"
+	  izz="1"/>
+    </inertial>
+  </link>
+
+  <link name="arm0">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+	<box size="0.2 0.2 0.2"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0.0" rpy="0 0 0"/>
+      <geometry>
+	<box size="0.2 0.2 0.2"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+	  ixx="1" ixy="0.0" ixz="0.0"
+	  iyy="1" iyz="0.0"
+	  izz="1"/>
+    </inertial>
+  </link>
+
+    <!-- u joint for arm, at origin of upper link >
+    <joint name="azimuth" type="revolute">
+      <parent>base</parent>
+      <child>arm0</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <use_parent_model_frame>false</use_parent_model_frame>
+        <dynamics><damping>5.0</damping></dynamics>
+	<limit><lower>-1</lower><upper>1</upper></limit>
+      </axis>
+    </joint>
+    <joint name="elevation" type="revolute">
+      <parent>arm0</parent>
+      <child>arm1</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <use_parent_model_frame>false</use_parent_model_frame>
+        <dynamics><damping>5.0</damping></dynamics>
+	<limit><lower>-1</lower><upper>1</upper></limit>
+      </axis>
+    </joint-->
+    <!--pin joint for barrel, at origin of child link>
+    <joint name="spinner" type="revolute">
+      <parent>arm1</parent>
+      <child>barrel</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <use_parent_model_frame>false</use_parent_model_frame>
+        <dynamics><damping>5.0</damping></dynamics>
+	<limit><lower>-3.142</lower><upper>3.142</upper></limit>
+      </axis>
+    </joint-->
+
+  <joint name="azimuth" type="continuous">
+    <parent link="pole"/>
+    <child link="arm0"/>
+    <origin xyz="0 0 2.0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="0.7"/>
+  </joint>
+
+  <joint name="elevation" type="continuous">
+    <parent link="arm0"/>
+    <child link="arm"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <dynamics damping="0.7"/>
+  </joint>
+
+  <joint name="spinner" type="continuous">
+    <parent link="arm"/>
+    <child link="barrel"/>
+    <origin xyz="0 1.0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="0.7"/>
+  </joint>
+
+  <link name="arm">
+    <collision>
+      <origin xyz="0 -0.5 0" rpy="-1.5708 0 0"/>
+      <geometry>
+	<cylinder radius="0.01" length="1.0"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 -0.5 0" rpy="-1.5708 0 0"/>
+      <geometry>
+	<cylinder radius="0.01" length="1.0"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 -0.5 0" rpy="-1.5708 0 0"/>
+      <mass value="1"/>
+      <inertia
+	  ixx="1" ixy="0.0" ixz="0.0"
+	  iyy="1" iyz="0.0"
+	  izz="1"/>
+    </inertial>
+  </link>
+
+  <link name="barrel">
+    <collision>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+      <geometry>
+	<cylinder radius="0.5" length="0.1"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+      <geometry>
+	<cylinder radius="0.5" length="0.1"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+	  ixx="1" ixy="0.0" ixz="0.0"
+	  iyy="1" iyz="0.0"
+	  izz="1"/>
+    </inertial>
+  </link>
+
+</robot>
