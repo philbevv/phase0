@@ -23,57 +23,59 @@
   </gazebo>
   <!-- Base -->
   <gazebo reference="base">
-    <material>
-      <script>
-        <uri>file://media/materials/scripts/gazebo.material</uri>
-        <name>Gazebo/Gold</name>
-      </script>
-    </material>
+    <material>Gazebo/Gold</material>
   </gazebo>
   <!-- Pole -->
   <gazebo reference="pole">
-    <material>
-      <script>
-        <uri>file://media/materials/scripts/gazebo.material</uri>
-        <name>Gazebo/Blue</name>
-      </script>
-    </material>
+    <material>Gazebo/Blue</material>
   </gazebo>
   <!-- Arm -->
   <gazebo reference="arm">
-    <material>
-      <script>
-        <uri>file://media/materials/scripts/gazebo.material</uri>
-        <name>Gazebo/Blue</name>
-      </script>
-    </material>
+    <material>Gazebo/Blue</material>
+  </gazebo>
+  <gazebo reference="blue_blk">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+  <gazebo reference="red_blk">
+    <material>Gazebo/Red</material>
+  </gazebo>
+  <gazebo reference="yellow_blk">
+    <material>Gazebo/Yellow</material>
+  </gazebo>
+  <gazebo reference="green_blk">
+    <material>Gazebo/Green</material>
+  </gazebo>
+  <gazebo reference="black_blk">
+    <material>Gazebo/Black</material>
+  </gazebo>
+  <gazebo reference="orange_blk">
+    <material>Gazebo/Orange</material>
   </gazebo>
   <!-- Barrel -->
   <gazebo reference="barrel">
     <material>
-      <script>
-        <uri>model://src16senseV1/materials/scripts</uri>
-        <uri>model://src16senseV1/materials/textures</uri>
-        <!--name>TexturedShape/Squares</name-->
-        <name>TexturedShape/Barrel</name>
-      </script>
+      Gazebo/Black
+          
+      <!--script>
+            <uri>package://spinner_description/materials/scripts</uri>
+            <uri>package://spinner_description/materials/textures</uri-->
+      <!--name>TexturedShape/Squares</name-->
+      <!--name>TexturedShape/Barrel</name>
+          </script-->
     </material>
   </gazebo>
   <!-- Camera -->
   <gazebo reference="camera_link">
-    <material>
-      <script>
-        <uri>file://media/materials/scripts/gazebo.material</uri>
-        <name>Gazebo/Gray</name>
-      </script>
-    </material>
+    <material>Gazebo/Gray</material>
   </gazebo>
   <!-- camera -->
   <gazebo reference="camera_link">
-    <sensor name="camera1" type="camera">
-      <update_rate>10.0</update_rate>
+    <sensor name="camera" type="camera">
+      <always_on>1</always_on>
+      <update_rate>10</update_rate>
+      <visualize>true</visualize>
       <camera name="head">
-        <horizontal_fov>1.3962634</horizontal_fov>
+        <horizontal_fov>1.05</horizontal_fov>
         <image>
           <width>320</width>
           <height>240</height>
@@ -81,20 +83,17 @@
         </image>
         <clip>
           <near>0.1</near>
-          <far>30</far>
+          <far>3</far>
         </clip>
         <noise>
           <type>gaussian</type>
-          <!-- Noise is sampled independently per pixel on each frame.  
-               That pixel's noise value is added to each of its color
-               channels, which at that point lie in the range [0,1]. -->
           <mean>0.0</mean>
           <stddev>0.007</stddev>
         </noise>
       </camera>
       <plugin filename="libgazebo_ros_camera.so" name="camera_controller">
         <alwaysOn>true</alwaysOn>
-        <updateRate>0.0</updateRate>
+        <updateRate>10.0</updateRate>
         <cameraName>spinner/camera</cameraName>
         <imageTopicName>image_raw</imageTopicName>
         <cameraInfoTopicName>camera_info</cameraInfoTopicName>
@@ -133,8 +132,17 @@
   <material name="red">
     <color rgba="0.8 0.0 0.0 1.0"/>
   </material>
+  <material name="yellow">
+    <color rgba="0.6 0.6 0.0 1.0"/>
+  </material>
   <material name="white">
     <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+  <material name="whorl">
+    <texture filename="package://spinner_description/materials/textures/barrelgradient.png"/>
+  </material>
+  <material name="squares">
+    <texture filename="package://spinner_description/materials/textures/squares.png"/>
   </material>
   <!-- Used for fixing robot to Gazebo 'base_link' -->
   <!--link name="world"/>
@@ -187,27 +195,36 @@
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
-  <joint name="polecam" type="fixed">
+  <!--limit effort="1000" lower="-1" upper="1" velocity="0.5"/-->
+  <joint name="pancam" type="revolute">
     <parent link="pole"/>
     <child link="camera_link"/>
+    <origin rpy="0 0 0" xyz="0 0 2.0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1000" lower="-0.1" upper="0.1" velocity="0.5"/>
+    <dynamics damping="0.7"/>
   </joint>
+  <!--joint name="polecam" type="fixed">
+    <parent link="pole"/>
+    <child link="camera_link"/>
+  </joint-->
   <link name="camera_link">
     <collision>
-      <origin rpy="1.5707 0 0" xyz="0 0 2.0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <box size="0.1 0.1 0.1"/>
       </geometry>
     </collision>
     <visual>
-      <origin rpy="0 0 0" xyz="0 0 2.0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <box size="0.1 0.1 0.1"/>
       </geometry>
       <material name="grey"/>
     </visual>
     <inertial>
-      <origin rpy="0 0 1.5707" xyz="0 0 0"/>
-      <mass value="1"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.01"/>
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
@@ -268,21 +285,21 @@
     <child link="arm0"/>
     <origin rpy="0 0 0" xyz="0 0 2.0"/>
     <axis xyz="0 0 1"/>
-    <dynamics damping="0.7"/>
+    <dynamics damping="10.0"/>
   </joint>
   <joint name="elevation" type="continuous">
     <parent link="arm0"/>
     <child link="arm"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <dynamics damping="0.7"/>
+    <dynamics damping="10.0"/>
   </joint>
   <joint name="spinner" type="continuous">
     <parent link="arm"/>
     <child link="barrel"/>
     <origin rpy="0 0 0" xyz="0 1.0 0"/>
     <axis xyz="0 0 1"/>
-    <dynamics damping="0.7"/>
+    <dynamics damping="1.0"/>
   </joint>
   <link name="arm">
     <collision>
@@ -316,7 +333,8 @@
       <geometry>
         <cylinder length="0.1" radius="0.5"/>
       </geometry>
-      <material name="orange"/>
+      <!--material name="orange"/-->
+      <material name="whorl"/>
     </visual>
     <inertial>
       <origin rpy="0 0 0" xyz="0 0 0.05"/>
@@ -324,4 +342,136 @@
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
+  <link name="blue_blk">
+    <collision>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
+    </inertial>
+  </link>
+  <joint name="blue_jt" type="fixed">
+    <parent link="barrel"/>
+    <child link="blue_blk"/>
+    <origin rpy="0 0 0" xyz="0.5 0 0"/>
+  </joint>
+  <link name="red_blk">
+    <collision>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
+    </inertial>
+  </link>
+  <joint name="red_jt" type="fixed">
+    <parent link="barrel"/>
+    <child link="red_blk"/>
+    <origin rpy="0 0 0" xyz="0.25 0.42 0"/>
+  </joint>
+  <link name="yellow_blk">
+    <collision>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="yellow"/>
+    </visual>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
+    </inertial>
+  </link>
+  <joint name="yellow_jt" type="fixed">
+    <parent link="barrel"/>
+    <child link="yellow_blk"/>
+    <origin rpy="0 0 0" xyz="-0.25 0.42 0"/>
+  </joint>
+  <link name="green_blk">
+    <collision>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
+    </inertial>
+  </link>
+  <joint name="green_jt" type="fixed">
+    <parent link="barrel"/>
+    <child link="green_blk"/>
+    <origin rpy="0 0 0" xyz="-0.5 0 0"/>
+  </joint>
+  <link name="black_blk">
+    <collision>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
+    </inertial>
+  </link>
+  <joint name="black_jt" type="fixed">
+    <parent link="barrel"/>
+    <child link="black_blk"/>
+    <origin rpy="0 0 0" xyz="-0.25 -0.42 0"/>
+  </joint>
+  <link name="orange_blk">
+    <collision>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
+    </inertial>
+  </link>
+  <joint name="orange_jt" type="fixed">
+    <parent link="barrel"/>
+    <child link="orange_blk"/>
+    <origin rpy="0 0 0" xyz="0.25 -0.42 0"/>
+  </joint>
 </robot>

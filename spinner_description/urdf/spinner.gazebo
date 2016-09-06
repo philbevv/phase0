@@ -11,62 +11,52 @@
 
   <!-- Base -->
   <gazebo reference="base">
-    <material>
-      <script>
-        <uri>file://media/materials/scripts/gazebo.material</uri>
-        <name>Gazebo/Gold</name>
-      </script>
-    </material>
+    <material>Gazebo/Gold</material>
   </gazebo>
 
   <!-- Pole -->
   <gazebo reference="pole">
-    <material>
-      <script>
-        <uri>file://media/materials/scripts/gazebo.material</uri>
-        <name>Gazebo/Blue</name>
-      </script>
-    </material>
+    <material>Gazebo/Blue</material>
   </gazebo>
 
   <!-- Arm -->
   <gazebo reference="arm">
-    <material>
-      <script>
-        <uri>file://media/materials/scripts/gazebo.material</uri>
-        <name>Gazebo/Blue</name>
-      </script>
-    </material>
+    <material>Gazebo/Blue</material>
   </gazebo>
+
+  <gazebo reference="blue_blk"><material>Gazebo/Blue</material></gazebo>
+  <gazebo reference="red_blk"><material>Gazebo/Red</material></gazebo>
+  <gazebo reference="yellow_blk"><material>Gazebo/Yellow</material></gazebo>
+  <gazebo reference="green_blk"><material>Gazebo/Green</material></gazebo>
+  <gazebo reference="black_blk"><material>Gazebo/Black</material></gazebo>
+  <gazebo reference="orange_blk"><material>Gazebo/Orange</material></gazebo>
 
   <!-- Barrel -->
   <gazebo reference="barrel">
-    <material>
-          <script>
-            <uri>model://src16senseV1/materials/scripts</uri>
-            <uri>model://src16senseV1/materials/textures</uri>
+    <material>Gazebo/Black
+          <!--script>
+            <uri>package://spinner_description/materials/scripts</uri>
+            <uri>package://spinner_description/materials/textures</uri-->
             <!--name>TexturedShape/Squares</name-->
-            <name>TexturedShape/Barrel</name>
-          </script>
+            <!--name>TexturedShape/Barrel</name>
+          </script-->
     </material>
   </gazebo>
 
   <!-- Camera -->
   <gazebo reference="camera_link">
-    <material>
-      <script>
-        <uri>file://media/materials/scripts/gazebo.material</uri>
-        <name>Gazebo/Gray</name>
-      </script>
-    </material>
+    <material>Gazebo/Gray</material>
   </gazebo>
 
   <!-- camera -->
   <gazebo reference="camera_link">
-    <sensor type="camera" name="camera1">
-      <update_rate>10.0</update_rate>
+    <sensor type="camera" name="camera">
+      
+      <always_on>1</always_on>
+      <update_rate>10</update_rate>
+      <visualize>true</visualize>
       <camera name="head">
-        <horizontal_fov>1.3962634</horizontal_fov>
+        <horizontal_fov>1.05</horizontal_fov>
         <image>
           <width>320</width>
           <height>240</height>
@@ -74,20 +64,17 @@
         </image>
         <clip>
           <near>0.1</near>
-          <far>30</far>
+          <far>3</far>
         </clip>
         <noise>
           <type>gaussian</type>
-          <!-- Noise is sampled independently per pixel on each frame.  
-               That pixel's noise value is added to each of its color
-               channels, which at that point lie in the range [0,1]. -->
           <mean>0.0</mean>
           <stddev>0.007</stddev>
         </noise>
       </camera>
       <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>true</alwaysOn>
-        <updateRate>0.0</updateRate>
+        <updateRate>10.0</updateRate>
         <cameraName>spinner/camera</cameraName>
         <imageTopicName>image_raw</imageTopicName>
         <cameraInfoTopicName>camera_info</cameraInfoTopicName>

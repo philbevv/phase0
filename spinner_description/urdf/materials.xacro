@@ -33,8 +33,20 @@
     <color rgba="0.8 0.0 0.0 1.0"/>
   </material>
 
+  <material name="yellow">
+    <color rgba="0.6 0.6 0.0 1.0"/>
+  </material>
+
   <material name="white">
     <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+
+  <material name="whorl">
+    <texture filename="package://spinner_description/materials/textures/barrelgradient.png" />
+  </material>
+
+  <material name="squares">
+    <texture filename="package://spinner_description/materials/textures/squares.png" />
   </material>
 
 </robot>

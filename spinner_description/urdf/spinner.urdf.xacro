@@ -82,21 +82,32 @@
     </inertial>
   </link>
 
-  <joint name="polecam" type="fixed">
+    <!--limit effort="1000" lower="-1" upper="1" velocity="0.5"/-->
+
+  <joint name="pancam" type="revolute">
     <parent link="pole"/>
     <child link="camera_link"/>
+    <origin xyz="0 0 2.0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1000" lower="-0.1" upper="0.1" velocity="0.5"/>
+    <dynamics damping="0.7"/>
   </joint>
+
+  <!--joint name="polecam" type="fixed">
+    <parent link="pole"/>
+    <child link="camera_link"/>
+  </joint-->
 
   <link name="camera_link">
     <collision>
-      <origin xyz="0 0 2.0" rpy="1.5707 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
 	<box size="0.1 0.1 0.1"/>
       </geometry>
     </collision>
 
     <visual>
-      <origin xyz="0 0 2.0" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
 	<box size="0.1 0.1 0.1"/>
       </geometry>
@@ -104,8 +115,8 @@
     </visual>
 
     <inertial>
-      <origin xyz="0 0 0" rpy="0 0 1.5707"/>
-      <mass value="1"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.01"/>
       <inertia
 	  ixx="1" ixy="0.0" ixz="0.0"
 	  iyy="1" iyz="0.0"
@@ -177,7 +188,7 @@
     <child link="arm0"/>
     <origin xyz="0 0 2.0" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <dynamics damping="0.7"/>
+    <dynamics damping="10.0"/>
   </joint>
 
   <joint name="elevation" type="continuous">
@@ -185,7 +196,7 @@
     <child link="arm"/>
     <origin xyz="0 0 0" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <dynamics damping="0.7"/>
+    <dynamics damping="10.0"/>
   </joint>
 
   <joint name="spinner" type="continuous">
@@ -193,7 +204,7 @@
     <child link="barrel"/>
     <origin xyz="0 1.0 0" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <dynamics damping="0.7"/>
+    <dynamics damping="1.0"/>
   </joint>
 
   <link name="arm">
@@ -235,7 +246,8 @@
       <geometry>
 	<cylinder radius="0.5" length="0.1"/>
       </geometry>
-      <material name="orange"/>
+      <!--material name="orange"/-->
+      <material name="whorl"/>
     </visual>
 
     <inertial>
@@ -248,4 +260,51 @@
     </inertial>
   </link>
 
+  <link name="blue_blk">
+    <collision><geometry><box size="0.1 0.1 0.1"/></geometry></collision>
+    <visual><geometry><box size="0.1 0.1 0.1"/></geometry><material name="blue"/></visual>
+    <inertial><mass value="0.01"/><inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1"
+       iyz="0.0" izz="1"/></inertial></link>
+  <joint name="blue_jt" type="fixed"><parent link="barrel"/><child link="blue_blk"/>
+    <origin xyz="0.5 0 0" rpy="0 0 0"/></joint>
+
+  <link name="red_blk">
+    <collision><geometry><box size="0.1 0.1 0.1"/></geometry></collision>
+    <visual><geometry><box size="0.1 0.1 0.1"/></geometry><material name="red"/></visual>
+    <inertial><mass value="0.01"/><inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1"
+       iyz="0.0" izz="1"/></inertial></link>
+  <joint name="red_jt" type="fixed"><parent link="barrel"/><child link="red_blk"/>
+    <origin xyz="0.25 0.42 0" rpy="0 0 0"/></joint>
+
+  <link name="yellow_blk">
+    <collision><geometry><box size="0.1 0.1 0.1"/></geometry></collision>
+    <visual><geometry><box size="0.1 0.1 0.1"/></geometry><material name="yellow"/></visual>
+    <inertial><mass value="0.01"/><inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1"
+       iyz="0.0" izz="1"/></inertial></link>
+  <joint name="yellow_jt" type="fixed"><parent link="barrel"/><child link="yellow_blk"/>
+    <origin xyz="-0.25 0.42 0" rpy="0 0 0"/></joint>
+
+  <link name="green_blk">
+    <collision><geometry><box size="0.1 0.1 0.1"/></geometry></collision>
+    <visual><geometry><box size="0.1 0.1 0.1"/></geometry><material name="green"/></visual>
+    <inertial><mass value="0.01"/><inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1"
+       iyz="0.0" izz="1"/></inertial></link>
+  <joint name="green_jt" type="fixed"><parent link="barrel"/><child link="green_blk"/>
+    <origin xyz="-0.5 0 0" rpy="0 0 0"/></joint>
+
+  <link name="black_blk">
+    <collision><geometry><box size="0.1 0.1 0.1"/></geometry></collision>
+    <visual><geometry><box size="0.1 0.1 0.1"/></geometry><material name="black"/></visual>
+    <inertial><mass value="0.01"/><inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1"
+       iyz="0.0" izz="1"/></inertial></link>
+  <joint name="black_jt" type="fixed"><parent link="barrel"/><child link="black_blk"/>
+    <origin xyz="-0.25 -0.42 0" rpy="0 0 0"/></joint>
+
+  <link name="orange_blk">
+    <collision><geometry><box size="0.1 0.1 0.1"/></geometry></collision>
+    <visual><geometry><box size="0.1 0.1 0.1"/></geometry><material name="orange"/></visual>
+    <inertial><mass value="0.01"/><inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1"
+       iyz="0.0" izz="1"/></inertial></link>
+  <joint name="orange_jt" type="fixed"><parent link="barrel"/><child link="orange_blk"/>
+    <origin xyz="0.25 -0.42 0" rpy="0 0 0"/></joint>
 </robot>
