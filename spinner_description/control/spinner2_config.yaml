@@ -1,0 +1,44 @@
+spinner2:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 1 
+
+  # Position Controllers ---------------------------------------
+  azimuth_ctl:
+    type: effort_controllers/JointPositionController
+    joint: azimuth
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  elevation_ctl:
+    type: effort_controllers/JointPositionController
+    joint: elevation
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  blue:
+    type: effort_controllers/JointPositionController
+    joint: blue_jt
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  red:
+    type: effort_controllers/JointPositionController
+    joint: red_jt
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  green:
+    type: effort_controllers/JointPositionController
+    joint: green_jt
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  yellow:
+    type: effort_controllers/JointPositionController
+    joint: yellow_jt
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  white:
+    type: effort_controllers/JointPositionController
+    joint: white_jt
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  purple:
+    type: effort_controllers/JointPositionController
+    joint: purple_jt
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  turquoise:
+    type: effort_controllers/JointPositionController
+    joint: turquoise_jt
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+

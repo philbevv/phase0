@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<robot>
+
+  <!-- ros_control plugin -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/spinner2</robotNamespace>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    </plugin>
+  </gazebo>
+
+  <!-- Colors -->
+  <gazebo reference="map"><material>Gazebo/Black</material></gazebo>
+  <gazebo reference="base"><material>Gazebo/Black</material></gazebo>
+
+  <gazebo reference="blue_blk"><material>Gazebo/BlueGlow</material></gazebo>
+  <gazebo reference="red_blk"><material>Gazebo/RedGlow</material></gazebo>
+  <gazebo reference="green_blk"><material>Gazebo/GreenGlow</material></gazebo>
+  <gazebo reference="yellow_blk"><material>Gazebo/YellowGlow</material></gazebo>
+  <gazebo reference="white_blk"><material>Gazebo/WhiteGlow</material></gazebo>
+  <gazebo reference="purple_blk"><material>Gazebo/PurpleGlow</material></gazebo>
+  <gazebo reference="turquoise_blk"><material>Gazebo/TurquoiseGlow</material></gazebo> 
+
+</robot>

@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<!-- Moveable light targets -->
+<robot name="spinner2" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Import all Gazebo-customization elements, including Gazebo colors -->
+  <xacro:include filename="$(find spinner_description)/urdf/spinner2.gazebo" />
+  <!-- Import Rviz colors -->
+  <xacro:include filename="$(find spinner_description)/urdf/materials.xacro" />
+
+  <!-- Robot State Publisher uses KDL,
+       KDL requires the robot's root to have no intertia -->
+  <link name="map" />
+  <joint name="dummy" type="fixed"><parent link="map"/><child link="base"/>
+    <origin xyz="0 0.4 0.4" rpy="0 0 0"/></joint>
+
+  <link name="base">
+    <collision>
+      <origin xyz="0 0 0.5" rpy="0 0 0"/>
+      <geometry>
+	<box size="1.2 1.0 1.1"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0.5" rpy="0 0 0"/>
+      <geometry>
+	<box size="1.2 1.0 1.1"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0.5" rpy="0 0 0"/>
+      <mass value="100"/>
+      <inertia
+	  ixx="10" ixy="0.0" ixz="0.0"
+	  iyy="10" iyz="0.0"
+	  izz="10"/>
+    </inertial>
+  </link>
+
+  <link name="arm0"><inertial><mass value="0.01"/><inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1"
+       iyz="0.0" izz="1"/></inertial></link>
+  <link name="arm1"><inertial><mass value="0.01"/><inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1"
+       iyz="0.0" izz="1"/></inertial></link>
+
+  <joint name="azimuth" type="prismatic">
+    <parent link="base"/>
+    <child link="arm0"/>
+    <origin xyz="0 0.4 0.4" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.5" upper="0.5" effort="100" velocity="1" />
+    <dynamics damping="10.0"/>
+  </joint>
+
+  <joint name="elevation" type="prismatic">
+    <parent link="arm0"/>
+    <child link="arm1"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="0" upper="0.5" effort="100" velocity="1" />
+    <dynamics damping="10.0"/>
+  </joint>
+
+  <xacro:macro name="make_light" params="color">
+
+  <link name="${color}_blk">
+    <collision><geometry><sphere radius="0.05"/></geometry></collision>
+    <visual>
+      <geometry><sphere radius="0.05"/></geometry>
+      <material name="${color}"/></visual>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/></inertial>
+  </link>
+  <joint name="${color}_jt" type="prismatic">
+    <parent link="arm1"/>
+    <child link="${color}_blk"/>
+    <limit lower="0" upper="0.1" effort="10" velocity="10" />
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  </xacro:macro>
+
+  <!--xacro:make_light color="blue"/>
+  <xacro:make_light color="red"/>
+  <xacro:make_light color="green"/>
+  <xacro:make_light color="yellow"/>
+  <xacro:make_light color="white"/>
+  <xacro:make_light color="purple"/>
+  <xacro:make_light color="turquoise"/-->
+
+  <transmission name="azimuth_ctl">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="azimuth">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="azimuth_drv">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="elevation_ctl">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="elevation">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="elevation_drv">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+
+</robot>
